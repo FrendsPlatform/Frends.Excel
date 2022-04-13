@@ -2,6 +2,9 @@
 
 namespace Frends.Excel.ConvertToXML.Definitions;
 
+/// <summary>
+/// ConvertToXML task result.
+/// </summary>
 public class Result
 {
     /// <summary>
@@ -11,18 +14,18 @@ public class Result
     public bool Success { get; set; }
 
     /// <summary>
-    /// Exception message.
+    /// Exception message, if any. Note that ThrowErrorOnFailure
+    /// should be false to get errors as part of result.
     /// </summary>
     [DefaultValue("")]
-    public string ErrorMessage { get; private set; }
+    public string? ErrorMessage { get; private set; }
 
     /// <summary>
-    /// Excel-conversion to CSV.
+    /// Excel-conversion to XML.
     /// </summary>
-    /// <returns>String</returns>
-    public string XML { get; private set; }
+    public string? XML { get; private set; }
 
-    public Result(bool success, string xml, string errorMessage)
+    internal Result(bool success, string? xml, string? errorMessage)
     {
         Success = success;
         XML = xml;

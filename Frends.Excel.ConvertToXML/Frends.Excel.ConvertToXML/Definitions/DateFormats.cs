@@ -1,21 +1,27 @@
 ﻿namespace Frends.Excel.ConvertToXML.Definitions;
 
+/// <summary>
+/// Available date formats.
+/// </summary>
 public enum DateFormats
 {
     /// <summary>
-    /// default value
+    /// Default value specified by system settings. 
+    /// Uses either `CultureInfo.CurrentCulture.DateTimeFormat` or 
+    /// `CurrentCulture.DateTimeFormat.ShortDatePattern` depending 
+    /// on `ShortDatePattern` flag.
     /// </summary>
     DEFAULT,
     /// <summary>
-    /// day/month/year
+    /// Day/Month/Year (with leading zeroes).
     /// </summary>
     DDMMYYYY,
     /// <summary>
-    /// month/day/year
+    /// Month/Day/Year (with leading zeroes).
     /// </summary>
     MMDDYYYY,
     /// <summary>
-    /// year/month/day
+    /// Year/Month/Day (with leading zeroes).
     /// </summary>
     YYYYMMDD
 }
