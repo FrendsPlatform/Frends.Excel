@@ -34,7 +34,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <None Update="FrendsTaskMetadata.json">
+	<None Include="FrendsTaskMetadata.json" Pack="true" PackagePath="/">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
