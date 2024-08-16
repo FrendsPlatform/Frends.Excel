@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.1] - 2024-08-16
+### Changed
+- Added FileAccess.Read -parameter to FileStream class constructor.
+
 ## [2.0.0] - 2023-03-21
 ### Changed
 - Change how the Json is constructed.
