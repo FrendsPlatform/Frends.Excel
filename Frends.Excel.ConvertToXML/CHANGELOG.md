@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.3] - 2024-08-16
+### Fixed
+- Added FileAccess.Read -parameter to FileStream class constructor.
+
 ## [1.0.2] - 2023-08-01
 ### Fixed
 - Fixed Options.ShouldReadSheet method to check if the Sheet name equals to the given name.
