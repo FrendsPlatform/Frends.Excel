@@ -1,6 +1,6 @@
 # Frends.Excel
 
-Frends tasks for regular expressions.
+Frends tasks for Excel.
 
 # Tasks
 

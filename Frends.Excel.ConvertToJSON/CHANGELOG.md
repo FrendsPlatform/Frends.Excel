@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.0] - 2024-08-21
+### Changed
+- Updated the Newtonsoft.Json package to the latest version.
+
 ## [2.0.0] - 2023-03-21
 ### Changed
 - Change how the Json is constructed.
