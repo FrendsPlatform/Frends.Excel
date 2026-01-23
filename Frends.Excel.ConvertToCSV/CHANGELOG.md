@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.0] - 2026-01-22
+### Fixed
+- Open Excel files with FileAccess.Read to support read-only files
+
 ## [1.0.2] - 2023-08-01
 ### Fixed
 - Fixed Options.ShouldReadSheet method to check if the Sheet name equals to the given name.
