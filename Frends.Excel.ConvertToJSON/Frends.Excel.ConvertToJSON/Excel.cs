@@ -30,7 +30,7 @@ public static class Excel
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            using var stream = new FileStream(input.Path, FileMode.Open);
+            using var stream = new FileStream(input.Path, FileMode.Open, FileAccess.Read);
             using var excelReader = ExcelReaderFactory.CreateReader(stream);
             var result = excelReader.AsDataSet();
             var json = ConvertDataSetToJson(result, options, Path.GetFileName(input.Path), cancellationToken);

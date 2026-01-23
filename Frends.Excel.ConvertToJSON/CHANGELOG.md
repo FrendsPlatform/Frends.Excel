@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.0] - 2026-01-22
+### Changed
+- Open Excel files with FileAccess.Read to support read-only files
+ 
 ## [2.1.0] - 2024-08-21
 ### Changed
 - Updated the Newtonsoft.Json package to the latest version.
