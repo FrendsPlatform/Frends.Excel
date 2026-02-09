@@ -8,6 +8,7 @@ Frends tasks for Excel.
 - [Frends.Excel.ConvertToXML](Frends.Excel.ConvertToXML/README.md)
 - [Frends.Excel.ConvertToJSON](Frends.Excel.ConvertToJSON/README.md)
 - [Frends.Excel.Parse](Frends.Excel.Parse/README.md)
+- [Frends.Excel.CreateFromCsv](Frends.Excel.CreateFromCsv/README.md)
 
 # Contributing
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
