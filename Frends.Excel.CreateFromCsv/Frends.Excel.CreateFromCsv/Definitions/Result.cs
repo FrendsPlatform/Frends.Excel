@@ -9,17 +9,17 @@ public class Result
     /// Indicates if the task completed successfully.
     /// </summary>
     /// <example>true</example>
-    public bool Success { get; set; }
+    public bool Success { get; init; } = true;
 
     /// <summary>
-    /// Input string repeated the specified number of times.
+    /// Path to the output file.
     /// </summary>
-    /// <example>foobar,foobar</example>
-    public string Output { get; set; }
+    /// <example>C:/results/MyNewData.xlsx</example>
+    public string OutputPath { get; init; }
 
     /// <summary>
     /// Error that occurred during task execution.
     /// </summary>
     /// <example>object { string Message, Exception AdditionalInfo }</example>
-    public Error Error { get; set; }
+    public Error Error { get; init; }
 }

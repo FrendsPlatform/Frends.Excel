@@ -11,12 +11,11 @@ public class Error
     /// Summary of the error.
     /// </summary>
     /// <example>Unable to join strings.</example>
-    public string Message { get; set; }
+    public string Message { get; init; }
 
     /// <summary>
     /// Additional information about the error.
     /// </summary>
     /// <example>object { Exception AdditionalInfo }</example>
-    // TODO: Add task specific additional information. Strong typing is recommended when reasonable.
     public Exception AdditionalInfo { get; set; }
 }

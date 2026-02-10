@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Frends.Excel.CreateFromCsv.Helpers;
 
 namespace Frends.Excel.CreateFromCsv.Definitions;
 
@@ -9,17 +10,44 @@ namespace Frends.Excel.CreateFromCsv.Definitions;
 public class Input
 {
     /// <summary>
-    /// The input string to be repeated and output.
+    /// Path to the .csv file.
     /// </summary>
-    /// <example>foobar</example>
+    /// <example>C:/workdir/data.csv</example>
     [DisplayFormat(DataFormatString = "Text")]
-    [DefaultValue("Lorem ipsum dolor sit amet.")]
-    public string Content { get; set; }
+    [DefaultValue("")]
+    [NotEmptyString]
+    [ExistingFilePath]
+    public string SourcePath { get; set; } = string.Empty;
 
     /// <summary>
-    /// Number of times to repeat the input string.
+    /// Name of the sheet to write to.
     /// </summary>
-    /// <example>2</example>
-    [DefaultValue(3)]
-    public int Repeat { get; set; }
+    /// <example>FirstSheet</example>
+    [DefaultValue("")]
+    [NotEmptyString]
+    public string SheetName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Delimiter.
+    /// </summary>
+    /// <example>;</example>
+    [DefaultValue(";")]
+    [NotEmptyString]
+    public string Delimiter { get; set; }
+
+    /// <summary>
+    /// Name of the file to write to.
+    /// </summary>
+    /// <example>MyNewData</example>
+    [DefaultValue("")]
+    [NotEmptyString]
+    public string DestinationFileName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Path to the folder where the file will be saved.
+    /// </summary>
+    /// <example>C:/results</example>
+    [DefaultValue("")]
+    [NotEmptyString]
+    public string DestinationDirectory { get; set; } = string.Empty;
 }

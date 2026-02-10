@@ -1,54 +1,65 @@
 ﻿using System;
 using System.Threading;
-using Frends.Excel.CreateFromCsv.Definitions;
 using NUnit.Framework;
 
 namespace Frends.Excel.CreateFromCsv.Tests;
 
-// TODO: Adjust the test to use a real invalid Input scenario (e.g., missing or malformed data)
 [TestFixture]
-public class ErrorHandlerTest
+public class ErrorHandlerTest : TestBase
 {
     private const string CustomErrorMessage = "CustomErrorMessage";
+
+    [SetUp]
+    public void Setup()
+    {
+        Input = DefaultInput();
+        Input.SourcePath = "C:/invalid path";
+        Options = DefaultOptions();
+    }
 
     [Test]
     public void Should_Throw_Error_When_ThrowErrorOnFailure_Is_True()
     {
         var ex = Assert.Throws<Exception>(() =>
-           Excel.CreateFromCsv(DefaultInput(), DefaultConnection(), DefaultOptions(), CancellationToken.None));
+            Excel.CreateFromCsv(Input, Options, CancellationToken.None));
         Assert.That(ex, Is.Not.Null);
     }
 
     [Test]
     public void Should_Return_Failed_Result_When_ThrowErrorOnFailure_Is_False()
     {
-        var options = DefaultOptions();
-        options.ThrowErrorOnFailure = false;
-        var result = Excel.CreateFromCsv(DefaultInput(), DefaultConnection(), options, CancellationToken.None);
+        Options.ThrowErrorOnFailure = false;
+        var result = Excel.CreateFromCsv(Input, Options, CancellationToken.None);
         Assert.That(result.Success, Is.False);
     }
 
     [Test]
     public void Should_Use_Custom_ErrorMessageOnFailure()
     {
-        var options = DefaultOptions();
-        options.ErrorMessageOnFailure = CustomErrorMessage;
+        Options.ErrorMessageOnFailure = CustomErrorMessage;
         var ex = Assert.Throws<Exception>(() =>
-            Excel.CreateFromCsv(DefaultInput(), DefaultConnection(), options, CancellationToken.None));
+            Excel.CreateFromCsv(Input, Options, CancellationToken.None));
         Assert.That(ex, Is.Not.Null);
         Assert.That(ex.Message, Contains.Substring(CustomErrorMessage));
     }
 
-    private static Input DefaultInput() => new()
+    [Test]
+    public void ValidationsShouldReturnCorrectMessages()
     {
-        Repeat = -1, // Invalid value to cause an exception
-    };
+        Input.SourcePath = "nonExistingFile.csv";
+        Input.SheetName = string.Empty;
+        Input.Delimiter = string.Empty;
+        Input.DestinationFileName = string.Empty;
+        Input.DestinationDirectory = string.Empty;
+        Options.ThrowErrorOnFailure = false;
 
-    private static Connection DefaultConnection() => new();
+        var result = Excel.CreateFromCsv(Input, Options, CancellationToken.None);
 
-    private static Options DefaultOptions() => new()
-    {
-        ThrowErrorOnFailure = true,
-        ErrorMessageOnFailure = string.Empty,
-    };
+        Assert.That(result.Success, Is.False);
+        Assert.That(result.Error.Message, Contains.Substring("SourcePath must be a valid, existing file path."));
+        Assert.That(result.Error.Message, Contains.Substring("SheetName is required and cannot be empty."));
+        Assert.That(result.Error.Message, Contains.Substring("Delimiter is required and cannot be empty."));
+        Assert.That(result.Error.Message, Contains.Substring("DestinationFileName is required and cannot be empty."));
+        Assert.That(result.Error.Message, Contains.Substring("DestinationDirectory is required and cannot be empty."));
+    }
 }

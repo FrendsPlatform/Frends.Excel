@@ -10,7 +10,7 @@
         <PackageTags>Frends</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <Description>Task to create .xslx file from data stored in .csv file</Description>
+        <Description>Task to create an .xslx file from data stored in .csv file</Description>
         <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
         <RepositoryUrl>https://github.com/FrendsPlatform/Frends.Excel/tree/main/Frends.Excel.CreateFromCsv</RepositoryUrl>
         <Nullable>disable</Nullable>
@@ -20,6 +20,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="ClosedXML" Version="0.105.0" />
+        <PackageReference Include="CsvHelper" Version="33.1.0" />
         <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
