@@ -22,7 +22,7 @@ internal class ValidExtensionAttribute : ValidationAttribute
     {
         switch (value)
         {
-           case string path:
+            case string path:
                 try
                 {
                     string extension = Path.GetExtension(path);

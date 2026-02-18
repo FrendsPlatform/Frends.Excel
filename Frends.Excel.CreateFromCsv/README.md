@@ -1,6 +1,6 @@
 # Frends.Excel.CreateFromCsv
 
-Task to create an .xlsx file from data stored in a.csv file
+Task to create an .xlsx file from data stored in a .csv file
 
 [![CreateFromCsv_build](https://github.com/FrendsPlatform/Frends.Excel/actions/workflows/CreateFromCsv_test_on_main.yml/badge.svg)](https://github.com/FrendsPlatform/Frends.Excel/actions/workflows/CreateFromCsv_test_on_main.yml)
 ![Coverage](https://app-github-custom-badges.azurewebsites.net/Badge?key=FrendsPlatform/Frends.Excel/Frends.Excel.CreateFromCsv|main)
@@ -33,5 +33,5 @@ Run the tests
 ### StyleCop.Analyzers Version
 This project uses StyleCop.Analyzers 1.2.0-beta.556, as recommended by the author, to get the latest fixes and improvements not available in the last stable release.
 
-### Third party license information
+### Third-party license information
 This project uses CsvHelper package under the [Apache 2.0 license](./Apache-2.0).
