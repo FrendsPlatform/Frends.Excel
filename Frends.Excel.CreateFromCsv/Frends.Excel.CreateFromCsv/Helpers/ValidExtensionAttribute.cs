@@ -17,8 +17,10 @@ internal class ValidExtensionAttribute : ValidationAttribute
             .ToArray();
         this.allowMissingExtension = allowMissingExtension;
 
-        ErrorMessage = "{0} has an invalid extension. Allowed extensions are: " + string.Join(", ",
-            $"'{this.extensions}'" + (allowMissingExtension ? ". Missing extension is allowed." : '.'));
+        var displayExtensions = this.extensions.Where(e => !string.IsNullOrEmpty(e));
+        ErrorMessage = "{0} has an invalid extension. Allowed extensions are: " +
+                       string.Join(", ", displayExtensions) +
+                       (allowMissingExtension ? ". Missing extension is allowed." : string.Empty);
     }
 
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
