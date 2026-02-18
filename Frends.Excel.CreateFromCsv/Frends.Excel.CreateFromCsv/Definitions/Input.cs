@@ -18,7 +18,7 @@ public class Input
     [NotEmptyString]
     [ExistingFilePath]
     [Required]
-    [ValidExtension("csv")]
+    [ValidExtension(["csv"])]
     public string SourcePath { get; set; } = string.Empty;
 
     /// <summary>
@@ -44,7 +44,7 @@ public class Input
     [DefaultValue("")]
     [NotEmptyString]
     [Required]
-    [ValidExtension(".xlsx", "")]
+    [ValidExtension([".xlsx"], true)]
     public string DestinationFileName { get; set; } = string.Empty;
 
     /// <summary>

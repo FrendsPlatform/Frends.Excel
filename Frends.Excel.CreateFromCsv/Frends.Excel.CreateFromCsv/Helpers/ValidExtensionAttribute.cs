@@ -8,14 +8,17 @@ namespace Frends.Excel.CreateFromCsv.Helpers;
 internal class ValidExtensionAttribute : ValidationAttribute
 {
     private readonly string[] extensions;
+    private readonly bool allowMissingExtension;
 
-    public ValidExtensionAttribute(params string[] extensions)
+    public ValidExtensionAttribute(string[] extensions, bool allowMissingExtension = false)
     {
         this.extensions = extensions
             .Select(x => x.StartsWith('.') ? x.ToLower() : x == string.Empty ? x : '.' + x.ToLower())
             .ToArray();
+        this.allowMissingExtension = allowMissingExtension;
 
-        ErrorMessage = "{0} has an invalid extension. Allowed extensions are: " + string.Join(", ", this.extensions);
+        ErrorMessage = "{0} has an invalid extension. Allowed extensions are: " + string.Join(", ",
+            $"'{this.extensions}'" + (allowMissingExtension ? ". Missing extension is allowed." : '.'));
     }
 
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
@@ -29,12 +32,15 @@ internal class ValidExtensionAttribute : ValidationAttribute
                 {
                     string extension = Path.GetExtension(path);
 
-                    if (extensions.Contains(extension.ToLower()))
+                    if ((string.IsNullOrEmpty(extension) && allowMissingExtension) ||
+                        extensions.Contains(extension.ToLower()))
+                    {
                         return ValidationResult.Success;
+                    }
                 }
                 catch (ArgumentException)
                 {
-                    return new ValidationResult("Invalid path format.");
+                    return new ValidationResult($"{validationContext.DisplayName} has an invalid path format.");
                 }
 
                 break;
