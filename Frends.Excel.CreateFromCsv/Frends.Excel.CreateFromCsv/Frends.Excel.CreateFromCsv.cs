@@ -29,7 +29,7 @@ public static class Excel
         [PropertyTab] Options options,
         CancellationToken cancellationToken)
     {
-        string tempPath = Path.ChangeExtension(Path.GetTempFileName(), ".xlsx");
+        string tempPath = Path.ChangeExtension(Path.GetTempPath(), $"{Guid.NewGuid()}.xlsx");
 
         try
         {
