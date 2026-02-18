@@ -115,6 +115,19 @@ public class FunctionalTests : TestBase
         Assert.That(val, Is.EqualTo("\"name"));
     }
 
+    [Test]
+    public void ShouldRespectValueTypes()
+    {
+        var result = Excel.CreateFromCsv(Input, Options, CancellationToken.None);
+
+        using var workbook = new XLWorkbook(ResultFilePath);
+        var worksheet = workbook.Worksheet(1);
+        var cell = worksheet.Cell(2, 3);
+        var number = cell.GetValue<double>();
+        Assert.That(result.Success, Is.True);
+        Assert.That(number, Is.EqualTo(25));
+    }
+
     [TearDown]
     public void Teardown()
     {

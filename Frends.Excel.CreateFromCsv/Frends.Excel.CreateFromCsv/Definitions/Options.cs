@@ -12,14 +12,14 @@ public class Options
     /// This flag tells the reader if there is a header row in the CSV string.
     /// </summary>
     /// <example>true</example>
-    [DefaultValue("true")]
+    [DefaultValue(true)]
     public bool ContainsHeaderRow { get; set; } = true;
 
     /// <summary>
     /// This flag tells the reader to trim whitespace from the beginning and ending of the field value when reading.
     /// </summary>
     /// <example>true</example>
-    [DefaultValue("true")]
+    [DefaultValue(true)]
     public bool TrimValues { get; set; } = true;
 
     /// <summary>
@@ -35,15 +35,23 @@ public class Options
     /// A record is considered empty if all fields are empty.
     /// </summary>
     /// <example>false</example>
-    [DefaultValue("false")]
+    [DefaultValue(false)]
     public bool SkipEmptyRows { get; set; } = false;
 
     /// <summary>
     /// A flag to let the reader know if quotes should be ignored.
     /// </summary>
     /// <example>false</example>
-    [DefaultValue("false")]
+    [DefaultValue(false)]
     public bool IgnoreQuotes { get; set; }
+
+    /// <summary>
+    /// Adjusts the width of all columns based on their content.
+    /// Enabling this may cause high memory usage.
+    /// </summary>
+    /// <example>false</example>
+    [DefaultValue(false)]
+    public bool AdjustColumnsToContents { get; set; }
 
     /// <summary>
     /// What to do if the output file already exists.

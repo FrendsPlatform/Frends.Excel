@@ -23,12 +23,14 @@ public static class Excel
     /// <param name="input">Essential parameters.</param>
     /// <param name="options">Additional parameters.</param>
     /// <param name="cancellationToken">A cancellation token provided by Frends Platform.</param>
-    /// <returns>object { bool Success, string Output, object Error { string Message, Exception AdditionalInfo } }</returns>
+    /// <returns>object { bool Success, string OutputPath, object Error { string Message, Exception AdditionalInfo } }</returns>
     public static Result CreateFromCsv(
         [PropertyTab] Input input,
         [PropertyTab] Options options,
         CancellationToken cancellationToken)
     {
+        string tempPath = Path.ChangeExtension(Path.GetTempFileName(), ".xlsx");
+
         try
         {
             var validationMessage = ValidationHandler.Validate(input);
@@ -37,12 +39,7 @@ public static class Excel
             if (!Directory.Exists(input.DestinationDirectory)) Directory.CreateDirectory(input.DestinationDirectory);
 
             string outputPath = Path.Combine(input.DestinationDirectory, input.DestinationFileName);
-            string tempPath = Path.GetTempFileName().Replace(".tmp", ".xlsx");
-
-            if (!outputPath.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase))
-            {
-                outputPath += ".xlsx";
-            }
+            outputPath = Path.ChangeExtension(outputPath, ".xlsx");
 
             if (File.Exists(outputPath))
             {
@@ -91,8 +88,10 @@ public static class Excel
                 for (var index = 0; index < csvReader.ColumnCount; index++)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
-                    var cellValue = csvReader.GetField(index);
-                    worksheet.Cell(rowCounter, index + 1).Value = cellValue;
+
+                    string rawValue = csvReader.GetField(index);
+                    object typedValue = FileHandler.ParseValue(rawValue, configuration.CultureInfo);
+                    worksheet.Cell(rowCounter, index + 1).Value = XLCellValue.FromObject(typedValue);
                 }
             }
 
@@ -103,7 +102,7 @@ public static class Excel
                 worksheet.SheetView.FreezeRows(1);
             }
 
-            worksheet.Columns().AdjustToContents();
+            if (options.AdjustColumnsToContents) worksheet.Columns().AdjustToContents();
             workbook.SaveAs(tempPath);
 
             if (File.Exists(outputPath)) File.Delete(outputPath);
@@ -116,6 +115,8 @@ public static class Excel
         }
         catch (Exception ex)
         {
+            if (File.Exists(tempPath)) File.Delete(tempPath);
+
             return ErrorHandler.Handle(ex, options.ThrowErrorOnFailure, options.ErrorMessageOnFailure);
         }
     }

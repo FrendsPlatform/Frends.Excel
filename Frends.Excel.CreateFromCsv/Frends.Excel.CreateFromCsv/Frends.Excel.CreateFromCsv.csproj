@@ -10,7 +10,7 @@
         <PackageTags>Frends</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <Description>Task to create an .xslx file from data stored in .csv file</Description>
+        <Description>Task to create an .xlsx file from data stored in .csv file</Description>
         <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
         <RepositoryUrl>https://github.com/FrendsPlatform/Frends.Excel/tree/main/Frends.Excel.CreateFromCsv</RepositoryUrl>
         <Nullable>disable</Nullable>
