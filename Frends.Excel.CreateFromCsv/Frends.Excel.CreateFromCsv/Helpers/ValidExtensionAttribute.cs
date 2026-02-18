@@ -22,6 +22,8 @@ internal class ValidExtensionAttribute : ValidationAttribute
     {
         switch (value)
         {
+            case null:
+                return ValidationResult.Success;
             case string path:
                 try
                 {
