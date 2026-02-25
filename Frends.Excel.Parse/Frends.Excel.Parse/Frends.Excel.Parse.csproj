@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <Authors>Frends</Authors>
     <Copyright>Frends</Copyright>
     <Company>Frends</Company>
@@ -31,4 +31,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+   <ItemGroup>
+	   <Content Include="../CHANGELOG.md" PackagePath="/" Pack="true"/>
+	   <Content Include="FrendsTaskMetadata.json"
+				   Pack="true"
+				   PackagePath="/"
+				   CopyToOutputDirectory="PreserveNewest" />
+	   <AdditionalFiles Include="FrendsTaskMetadata.json" />
+   </ItemGroup>
 </Project>
