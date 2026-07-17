@@ -20,8 +20,8 @@ public class ErrorHandlerTest : TestBase
     [Test]
     public void Should_Throw_Error_When_ThrowErrorOnFailure_Is_True()
     {
-        var ex = Assert.Throws<Exception>(() =>
-            Excel.CreateFromCsv(Input, Options, CancellationToken.None));
+        var ex = Assert.Throws<Exception>((Action)(() =>
+            Excel.CreateFromCsv(Input, Options, CancellationToken.None)));
         Assert.That(ex, Is.Not.Null);
     }
 
@@ -37,8 +37,8 @@ public class ErrorHandlerTest : TestBase
     public void Should_Use_Custom_ErrorMessageOnFailure()
     {
         Options.ErrorMessageOnFailure = CustomErrorMessage;
-        var ex = Assert.Throws<Exception>(() =>
-            Excel.CreateFromCsv(Input, Options, CancellationToken.None));
+        var ex = Assert.Throws<Exception>((Action)(() =>
+            Excel.CreateFromCsv(Input, Options, CancellationToken.None)));
         Assert.That(ex, Is.Not.Null);
         Assert.That(ex.Message, Contains.Substring(CustomErrorMessage));
     }
