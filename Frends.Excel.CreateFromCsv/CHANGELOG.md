@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.0] - 2026-07-17
+
+### Changed
+
+- Updated copyright information to comply with Frends platform standards
+
 ## [1.1.0] - 2026-02-23
 
 ### Fixed
