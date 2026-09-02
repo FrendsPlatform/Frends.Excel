@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.0] - 2026-09-02
+### Fixed
+- Updated the task to target .NET 8.
+- Added standard failure handling options (`ThrowErrorOnFailure` defaulting to true and `ErrorMessageOnFailure`) and included structured error details in the result.
+
 ## [1.1.0] - 2026-01-22
 ### Fixed
 - Open Excel files with FileAccess.Read to support read-only files

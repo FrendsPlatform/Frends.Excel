@@ -25,10 +25,17 @@ public class Result
     /// <example>Error while converting Excel file to CSV</example>
     public string? ErrorMessage { get; private set; }
 
-    internal Result(bool success, string? csv, string? errorMessage)
+    /// <summary>
+    /// Error that occurred during task execution.
+    /// </summary>
+    /// <example>object { string Message, Exception AdditionalInfo }</example>
+    public Error? Error { get; private set; }
+
+    internal Result(bool success, string? csv, string? errorMessage, Error? error = null)
     {
         Success = success;
         CSV = csv;
         ErrorMessage = errorMessage;
+        Error = error;
     }
 }
