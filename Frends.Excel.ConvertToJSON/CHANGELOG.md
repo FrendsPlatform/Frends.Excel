@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.3.0] - 2026-09-02
+### Changed
+- Updated the task to .NET 8 and aligned task metadata with current Frends analyzer requirements.
+- Improved failure handling options so you can choose whether to throw errors or return failure details in the task result.
+
 ## [2.2.0] - 2026-01-22
 ### Changed
 - Open Excel files with FileAccess.Read to support read-only files

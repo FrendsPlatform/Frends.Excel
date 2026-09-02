@@ -5,6 +5,7 @@ using System.Text;
 using Newtonsoft.Json;
 using ExcelDataReader;
 using Frends.Excel.ConvertToJSON.Definitions;
+using Frends.Excel.ConvertToJSON.Helpers;
 
 namespace Frends.Excel.ConvertToJSON;
 
@@ -34,14 +35,11 @@ public static class Excel
             using var excelReader = ExcelReaderFactory.CreateReader(stream);
             var result = excelReader.AsDataSet();
             var json = ConvertDataSetToJson(result, options, Path.GetFileName(input.Path), cancellationToken);
-            return new Result(true, json, null);
+            return new Result(true, json);
         }
         catch (Exception ex)
         {
-            if (options.ThrowErrorOnFailure)
-                throw new InvalidOperationException("Error while converting Excel file to JSON", ex);
-
-            return new Result(false, null, $"Error while converting Excel file to JSON: {ex}");
+            return ex.Handle(options);
         }
     }
 

@@ -15,11 +15,10 @@ public class Result
     public bool Success { get; private set; }
 
     /// <summary>
-    /// Exception message.
+    /// Error that occurred during task execution.
     /// </summary>
-    /// <example>An error occurred...</example>
-    [DefaultValue("")]
-    public string? ErrorMessage { get; private set; }
+    /// <example>object { string Message, Exception AdditionalInfo }</example>
+    public Error? Error { get; private set; }
 
     /// <summary>
     /// Excel-conversion to JSON.
@@ -27,10 +26,10 @@ public class Result
     /// <example>"{"workbook":{"workbook_name":"ExcelTestInput2.xls","worksheet":{"name":"Sheet1","rows":[{"RowNumber":1,"Cells":[{"ColumnName":"A","ColumnIndex":1,"ColumnValue":"Foo"},{"ColumnName":"B","ColumnIndex":2,"ColumnValue":"Bar"},{"ColumnName":"C","ColumnIndex":3,"ColumnValue":"Kanji働"},{"ColumnName":"D","ColumnIndex":4,"ColumnValue":"Summa"}]}]}}}"</example>
     public string? JSON { get; private set; }
 
-    internal Result(bool success, string? json, string? errorMessage)
+    internal Result(bool success, string? json, Error? error = null)
     {
         Success = success;
         JSON = json;
-        ErrorMessage = errorMessage;
+        Error = error;
     }
 }
