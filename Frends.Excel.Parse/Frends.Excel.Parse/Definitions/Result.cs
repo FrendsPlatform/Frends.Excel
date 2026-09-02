@@ -1,32 +1,41 @@
 ﻿using System.ComponentModel;
-using System.Data;
 
 namespace Frends.Excel.Parse.Definitions;
 
+/// <summary>
+/// Result of the task.
+/// </summary>
 public class Result
 {
     /// <summary>
-    /// False if conversion fails.
+    /// Indicates whether the operation completed successfully.
     /// </summary>
-    [DefaultValue("false")]
-    public bool Success { get; internal set; }
+    /// <example>true</example>
+    [DefaultValue(false)]
+    public bool Success { get; init; }
 
     /// <summary>
-    /// Exception message.
+    /// Error details. Null when Success is true.
     /// </summary>
-    [DefaultValue("")]
-    public string ErrorMessage { get; internal set; }
+    /// <example>null</example>
+    public Error? Error { get; init; }
 
     /// <summary>
-    /// Parsed Excel data set.
+    /// Parsed workbook contents.
     /// </summary>
-    /// <returns>String</returns>
-    public DataSet DataSet { get; internal set; }
+    /// <example>object { Tables = [object { TableName = "Sheet1", Columns = ["Column0"], Rows = [["Value"]] }] }</example>
+    public WorkbookData? DataSet { get; init; }
 
-    public Result(bool success, DataSet dataSet, string errorMessage)
+    /// <summary>
+    /// Initializes a new task result.
+    /// </summary>
+    /// <param name="success">Whether the task completed successfully.</param>
+    /// <param name="dataSet">Parsed workbook data.</param>
+    /// <param name="error">Error details when the task fails.</param>
+    public Result(bool success, WorkbookData? dataSet = null, Error? error = null)
     {
         Success = success;
         DataSet = dataSet;
-        ErrorMessage = errorMessage;
+        Error = error;
     }
 }

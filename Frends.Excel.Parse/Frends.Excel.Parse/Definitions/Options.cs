@@ -3,11 +3,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Frends.Excel.Parse.Definitions;
 
+/// <summary>
+/// Additional parameters.
+/// </summary>
 public class Options
 {
     /// <summary>
-    /// Choose if exception should be thrown when conversion fails.
+    /// Whether to throw an error on failure.
     /// </summary>
-    [DefaultValue("true")]
-    public bool ThrowErrorOnFailure { get; set; }
+    /// <example>true</example>
+    [DefaultValue(true)]
+    public bool ThrowErrorOnFailure { get; set; } = true;
+
+    /// <summary>
+    /// Overrides the error message on failure.
+    /// </summary>
+    /// <example>Parsing failed: workbook is locked</example>
+    [DisplayFormat(DataFormatString = "Text")]
+    [DefaultValue("")]
+    public string ErrorMessageOnFailure { get; set; } = string.Empty;
 }
