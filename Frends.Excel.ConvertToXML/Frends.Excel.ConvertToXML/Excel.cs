@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using ExcelDataReader;
 using Frends.Excel.ConvertToXML.Definitions;
+using Frends.Excel.ConvertToXML.Helpers;
 
 namespace Frends.Excel.ConvertToXML;
 
@@ -32,14 +33,11 @@ public static class Excel
             using var excelReader = ExcelReaderFactory.CreateReader(stream);
             var result = excelReader.AsDataSet();
             var xml = ConvertDataSetToXml(result, options, Path.GetFileName(input.Path), cancellationToken);
-            return new Result(true, xml, null);
+            return new Result(true, xml);
         }
         catch (Exception ex)
         {
-            if (options.ThrowErrorOnFailure)
-                throw new ArgumentException("Error while converting Excel file to XML", ex);
-
-            return new Result(false, null, $"Error while converting Excel file to XML: {ex}");
+            return ex.Handle(options);
         }
     }
 

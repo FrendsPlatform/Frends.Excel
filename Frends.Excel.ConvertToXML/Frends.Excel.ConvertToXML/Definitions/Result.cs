@@ -10,7 +10,7 @@ public class Result
     /// <summary>
     /// Conversion's status. False if conversion fails.
     /// </summary>
-    /// <example>false</example>
+    /// <example>true</example>
     [DefaultValue("false")]
     public bool Success { get; set; }
 
@@ -26,11 +26,17 @@ public class Result
     /// <example>Error while converting Excel file to XML</example>
     public string? ErrorMessage { get; private set; }
 
+    /// <summary>
+    /// Error that occurred during task execution.
+    /// </summary>
+    /// <example>object { string Message, Exception AdditionalInfo }</example>
+    public Error? Error { get; private set; }
 
-    internal Result(bool success, string? xml, string? errorMessage)
+    internal Result(bool success, string? xml, Error? error = null)
     {
         Success = success;
         XML = xml;
-        ErrorMessage = errorMessage;
+        Error = error;
+        ErrorMessage = error?.Message;
     }
 }

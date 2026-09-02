@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.0] - 2026-09-02
+### Fixed
+- Updated the task to .NET 8 and aligned task metadata so failures now return structured error details when configured not to throw.
+
 ## [1.1.0] - 2026-01-22
 ### Fixed
 - Open Excel files with FileAccess.Read to support read-only files
