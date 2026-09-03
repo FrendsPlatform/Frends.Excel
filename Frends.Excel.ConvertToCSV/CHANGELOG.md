@@ -1,9 +1,9 @@
 # Changelog
 
 ## [2.0.0] - 2026-09-02
-### Change
+### Changed
 - [Breaking Change] Replaced `ErrorMessage` (string) in the result object with a structured `Error` object containing `Message` and `AdditionalInfo`.
-- Added standard failure handling options `ErrorMessageOnFailure`).
+- Added standard failure handling options `ErrorMessageOnFailure`.
 - Updated the task to target .NET 8.
 
 
