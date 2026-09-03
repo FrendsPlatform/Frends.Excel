@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+
 namespace Frends.Excel.ConvertToCSV.Definitions;
 
 /// <summary>
@@ -12,7 +13,7 @@ public class Options
     /// </summary>
     /// <example>Sheet2</example>
     [DisplayFormat(DataFormatString = "Text")]
-    public string? ReadOnlyWorkSheetWithName { get; set; }
+    public string ReadOnlyWorkSheetWithName { get; set; }
 
     /// <summary>
     /// Csv separator.
@@ -26,8 +27,16 @@ public class Options
     /// Choose if exception should be thrown when conversion fails.
     /// </summary>
     /// <example>true</example>
-    [DefaultValue("true")]
-    public bool ThrowErrorOnFailure { get; set; }
+    [DefaultValue(true)]
+    public bool ThrowErrorOnFailure { get; set; } = true;
+
+    /// <summary>
+    /// Overrides the error message on failure.
+    /// </summary>
+    /// <example>Excel conversion failed due to invalid input</example>
+    [DisplayFormat(DataFormatString = "Text")]
+    [DefaultValue("")]
+    public string ErrorMessageOnFailure { get; set; } = string.Empty;
 
     /// <summary>
     /// Date format selection.
