@@ -1,9 +1,10 @@
 # Changelog
 
-## [1.2.0] - 2026-09-02
-### Fixed
+## [2.0.0] - 2026-09-02
+### Change
 - Updated the task to target .NET 8.
 - Added standard failure handling options (`ThrowErrorOnFailure` defaulting to true and `ErrorMessageOnFailure`) and included structured error details in the result.
+- [Breaking Change] Replaced `ErrorMessage` (string) in the result object with a structured `Error` object containing `Message` and `AdditionalInfo` (Exception).
 
 ## [1.1.0] - 2026-01-22
 ### Fixed

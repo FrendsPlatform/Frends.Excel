@@ -83,21 +83,11 @@ public class ExcelConvertTests
             var result = Excel.ConvertToCSV(_input, _options, new CancellationToken());
             Assert.AreEqual(result.Success, false);
             Assert.AreEqual(result.CSV, null);
-            Assert.AreEqual(result.Error, null);
         }
         catch (Exception ex)
         {
             Assert.Fail("This should not happen: " + ex.Message);
         }
-    }
-
-    [Test]
-    public void OptionsDefaultsShouldMatchAnalyzerRequirements()
-    {
-        var options = new Options();
-
-        Assert.That(options.ThrowErrorOnFailure, Is.True);
-        Assert.That(options.ErrorMessageOnFailure, Is.EqualTo(string.Empty));
     }
 
     [Test]

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+
 namespace Frends.Excel.ConvertToCSV.Definitions;
 
 /// <summary>
@@ -12,7 +13,7 @@ public class Options
     /// </summary>
     /// <example>Sheet2</example>
     [DisplayFormat(DataFormatString = "Text")]
-    public string? ReadOnlyWorkSheetWithName { get; set; }
+    public string ReadOnlyWorkSheetWithName { get; set; }
 
     /// <summary>
     /// Csv separator.
