@@ -7,7 +7,7 @@ public enum DateFormats
 {
     /// <summary>
     /// Default format, will use `CurrentCulture.DateTimeFormat.ShortDatePattern`
-    /// for `ShortDatePattern` option is set to `true`, otherwise will use 
+    /// for `ShortDatePattern` option is set to `true`, otherwise will use
     /// `CurrentCulture.DateTimeFormat.DateTimeFormat`.
     /// </summary>
     DEFAULT,
@@ -28,5 +28,5 @@ public enum DateFormats
     /// Will use `yyyy/MM/dd` if `ShortDatePattern` option is set to `true`,
     /// otherwise will use `yyyy/MM/dd H:mm:ss`.
     /// </summary>
-    YYYYMMDD
+    YYYYMMDD,
 }

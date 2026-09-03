@@ -7,6 +7,13 @@ namespace Frends.Excel.ConvertToXML.Definitions;
 /// </summary>
 public class Result
 {
+    internal Result(bool success, string xml, Error error = null)
+    {
+        Success = success;
+        XML = xml;
+        Error = error;
+    }
+
     /// <summary>
     /// Conversion's status. False if conversion fails.
     /// </summary>
@@ -18,25 +25,11 @@ public class Result
     /// Excel-conversion to CSV.
     /// </summary>
     /// <example>workbook_name, worksheet_name, row_header, column_header</example>
-    public string? XML { get; private set; }
-
-    /// <summary>
-    /// Exception message.
-    /// </summary>
-    /// <example>Error while converting Excel file to XML</example>
-    public string? ErrorMessage { get; private set; }
+    public string XML { get; private set; }
 
     /// <summary>
     /// Error that occurred during task execution.
     /// </summary>
     /// <example>object { string Message, Exception AdditionalInfo }</example>
-    public Error? Error { get; private set; }
-
-    internal Result(bool success, string? xml, Error? error = null)
-    {
-        Success = success;
-        XML = xml;
-        Error = error;
-        ErrorMessage = error?.Message;
-    }
+    public Error Error { get; private set; }
 }

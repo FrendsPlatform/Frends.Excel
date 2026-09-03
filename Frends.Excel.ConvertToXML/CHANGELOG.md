@@ -1,8 +1,10 @@
 # Changelog
 
-## [1.2.0] - 2026-09-02
-### Fixed
-- Updated the task to .NET 8 and aligned task metadata so failures now return structured error details when configured not to throw.
+## [2.0.0] - 2026-09-02
+### Changed
+- [Breaking Change] Replaced `ErrorMessage` (string) in the result object with a structured `Error` object containing `Message` and `AdditionalInfo`.
+- Added standard failure handling options `ErrorMessageOnFailure`.
+- Updated the task to target .NET 8.
 
 ## [1.1.0] - 2026-01-22
 ### Fixed

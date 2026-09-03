@@ -9,7 +9,6 @@ using Frends.Excel.ConvertToXML.Helpers;
 
 namespace Frends.Excel.ConvertToXML;
 
-
 /// <summary>
 /// Excel operation task.
 /// </summary>
@@ -71,7 +70,7 @@ public static class Excel
                     for (var j = 0; j < table.Columns.Count; j++)
                     {
                         // Write column only if it has some content.
-                        var content = table.Rows[i].ItemArray[j] ?? "";
+                        var content = table.Rows[i].ItemArray[j] ?? string.Empty;
                         if (!string.IsNullOrWhiteSpace(content.ToString()))
                         {
                             if (!row_element_is_writed)
@@ -98,6 +97,7 @@ public static class Excel
                     if (row_element_is_writed)
                         xw.WriteEndElement();
                 }
+
                 xw.WriteEndElement();
             }
         }
@@ -117,15 +117,15 @@ public static class Excel
         {
             mod = (div - 1) % 26;
             colLetter = (char)(65 + mod) + colLetter;
-            div = ((div - mod) / 26);
+            div = (div - mod) / 26;
         }
+
         return colLetter;
     }
 
     private static string ConvertDateTimes(DateTime date, Options options)
     {
         // Modify the date using date format var in options.
-
         if (options.ShortDatePattern)
         {
             return options.DateFormat switch

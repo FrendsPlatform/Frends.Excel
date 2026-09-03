@@ -13,7 +13,7 @@ public class Options
     /// </summary>
     /// <example>Sheet2</example>
     [DisplayFormat(DataFormatString = "Text")]
-    public string? ReadOnlyWorkSheetWithName { get; set; }
+    public string ReadOnlyWorkSheetWithName { get; set; }
 
     /// <summary>
     /// If set to true, numbers will be used as column headers instead of letters (A = 1, B = 2...).
