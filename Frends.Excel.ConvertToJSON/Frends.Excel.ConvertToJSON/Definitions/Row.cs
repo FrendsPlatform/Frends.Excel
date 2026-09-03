@@ -2,6 +2,10 @@
 
 internal class Row
 {
+    public Row()
+    {
+    }
+
     /// <summary>
     /// Row number in the worksheet.
     /// </summary>
@@ -13,6 +17,4 @@ internal class Row
     /// </summary>
     /// <example>List of cells with column metadata and values</example>
     public List<Cell>? Cells { get; set; }
-
-    public Row() { }
 }

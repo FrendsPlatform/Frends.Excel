@@ -2,6 +2,10 @@
 
 internal class Cell
 {
+    public Cell()
+    {
+    }
+
     /// <summary>
     /// Column name in letter or number format.
     /// </summary>
@@ -19,6 +23,4 @@ internal class Cell
     /// </summary>
     /// <example>Foo</example>
     public string? ColumnValue { get; set; }
-
-    public Cell() { }
 }
