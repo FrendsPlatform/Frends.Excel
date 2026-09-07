@@ -4,15 +4,17 @@ using System.Globalization;
 using System.Text;
 using ExcelDataReader;
 using Frends.Excel.ConvertToCSV.Definitions;
+using Frends.Excel.ConvertToCSV.Helpers;
 
 namespace Frends.Excel.ConvertToCSV;
+
 /// <summary>
 /// Excel operation task.
 /// </summary>
 public static class Excel
 {
     /// <summary>
-    /// Converts Excel file to CSV. 
+    /// Converts Excel file to CSV.
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Excel.ConvertToCSV)
     /// </summary>
     /// <param name="input">Input configuration</param>
@@ -34,14 +36,17 @@ public static class Excel
             using var excelReader = ExcelReaderFactory.CreateReader(stream);
             var result = excelReader.AsDataSet();
             var csv = ConvertDataSetToCSV(result, options, cancellationToken);
-            return new Result(true, csv, null);
+
+            return new Result
+            {
+                Success = true,
+                CSV = csv,
+                Error = null,
+            };
         }
         catch (Exception ex)
         {
-            if (options.ThrowErrorOnFailure)
-                throw new Exception("Error while converting Excel file to CSV", ex);
-
-            return new Result(false, null, $"Error while converting Excel file to CSV: {ex}");
+            return ex.Handle(options);
         }
     }
 
@@ -66,18 +71,19 @@ public static class Excel
 
                     resultData.Append(item + options.CsvSeparator);
                 }
+
                 // Remove last CsvSeparator.
                 resultData.Length--;
                 resultData.Append(Environment.NewLine);
             }
         }
+
         return resultData.ToString();
     }
 
     private static string ConvertDateTimes(DateTime date, Options options)
     {
         // Modify the date using date format var in options.
-
         if (options.ShortDatePattern)
         {
             return options.DateFormat switch

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+
 namespace Frends.Excel.ConvertToCSV.Definitions;
 
 /// <summary>
@@ -11,24 +12,17 @@ public class Result
     /// </summary>
     /// <example>false</example>
     [DefaultValue("false")]
-    public bool Success { get; private set; }
+    public bool Success { get; set; }
 
     /// <summary>
     /// Excel-conversion to CSV.
     /// </summary>
     /// <example>"Foo,Bar,Kanji 働,Summa\r\n1,2,3,6\r\nKuva,1,2,3\r\n,,,\r\nFoo,,,\r\n,Bar,,\r\n"</example>
-    public string? CSV { get; private set; }
+    public string CSV { get; set; }
 
     /// <summary>
-    /// Exception message.
+    /// Error that occurred during task execution.
     /// </summary>
-    /// <example>Error while converting Excel file to CSV</example>
-    public string? ErrorMessage { get; private set; }
-
-    internal Result(bool success, string? csv, string? errorMessage)
-    {
-        Success = success;
-        CSV = csv;
-        ErrorMessage = errorMessage;
-    }
+    /// <example>object { string Message, Exception AdditionalInfo }</example>
+    public Error Error { get; set; }
 }
