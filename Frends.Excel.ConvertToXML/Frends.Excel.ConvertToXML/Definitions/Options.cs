@@ -13,7 +13,7 @@ public class Options
     /// </summary>
     /// <example>Sheet2</example>
     [DisplayFormat(DataFormatString = "Text")]
-    public string? ReadOnlyWorkSheetWithName { get; set; }
+    public string ReadOnlyWorkSheetWithName { get; set; }
 
     /// <summary>
     /// If set to true, numbers will be used as column headers instead of letters (A = 1, B = 2...).
@@ -26,8 +26,16 @@ public class Options
     /// Choose if exception should be thrown when conversion fails.
     /// </summary>
     /// <example>true</example>
-    [DefaultValue("true")]
-    public bool ThrowErrorOnFailure { get; set; }
+    [DefaultValue(true)]
+    public bool ThrowErrorOnFailure { get; set; } = true;
+
+    /// <summary>
+    /// Overrides the error message on failure.
+    /// </summary>
+    /// <example>Excel conversion failed for input file.</example>
+    [DisplayFormat(DataFormatString = "Text")]
+    [DefaultValue("")]
+    public string ErrorMessageOnFailure { get; set; } = string.Empty;
 
     /// <summary>
     /// Date format selection.
