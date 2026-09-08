@@ -1,5 +1,3 @@
-using System;
-
 namespace Frends.Excel.Parse.Definitions;
 
 /// <summary>
@@ -17,5 +15,5 @@ public class Error
     /// Additional information about the error.
     /// </summary>
     /// <example>object { Message = "The file could not be found." }</example>
-    public Exception? AdditionalInfo { get; init; }
+    public Exception AdditionalInfo { get; init; }
 }

@@ -2,7 +2,9 @@
 
 ## [2.0.0] - 2026-09-02
 ### Changed
-- Updated the task to target .NET 8 and return task-owned workbook data instead of exposing a third-party dataset type directly.
+- [Breaking Change] Replaced `ErrorMessage` (string) in the result object with a structured `Error` object containing `Message` and `AdditionalInfo`.
+- Added standard failure handling options `ErrorMessageOnFailure`.
+- Updated the task to target .NET 8.
 
 ### Fixed
 - Added standardized task error handling and documentation for task inputs, options, and results.

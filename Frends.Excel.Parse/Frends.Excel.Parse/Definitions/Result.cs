@@ -1,12 +1,26 @@
-﻿using System.ComponentModel;
+﻿namespace Frends.Excel.Parse.Definitions;
 
-namespace Frends.Excel.Parse.Definitions;
+using System.ComponentModel;
+using System.Data;
 
 /// <summary>
 /// Result of the task.
 /// </summary>
 public class Result
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Result"/> class.
+    /// </summary>
+    /// <param name="success">Indicates whether the operation completed successfully.</param>
+    /// <param name="dataSet">Contains the returned data set.</param>
+    /// <param name="error">Contains error details when the operation fails.</param>
+    public Result(bool success, DataSet dataSet, Error error)
+    {
+        Success = success;
+        DataSet = dataSet;
+        Error = error;
+    }
+
     /// <summary>
     /// Indicates whether the operation completed successfully.
     /// </summary>
@@ -18,24 +32,13 @@ public class Result
     /// Error details. Null when Success is true.
     /// </summary>
     /// <example>null</example>
-    public Error? Error { get; init; }
+    public Error Error { get; init; }
 
     /// <summary>
     /// Parsed workbook contents.
     /// </summary>
     /// <example>object { Tables = [object { TableName = "Sheet1", Columns = ["Column0"], Rows = [["Value"]] }] }</example>
-    public WorkbookData? DataSet { get; init; }
-
-    /// <summary>
-    /// Initializes a new task result.
-    /// </summary>
-    /// <param name="success">Whether the task completed successfully.</param>
-    /// <param name="dataSet">Parsed workbook data.</param>
-    /// <param name="error">Error details when the task fails.</param>
-    public Result(bool success, WorkbookData? dataSet = null, Error? error = null)
-    {
-        Success = success;
-        DataSet = dataSet;
-        Error = error;
-    }
+#pragma warning disable FT0017 // Intentionally suppress this analyzer rule: DataSet is provided by .NET and is required to represent the parsed Excel workbook
+    public DataSet DataSet { get; internal set; }
+#pragma warning restore FT0017
 }
