@@ -2,9 +2,10 @@
 using System.Data;
 using System.Globalization;
 using System.Text;
-using Newtonsoft.Json;
 using ExcelDataReader;
 using Frends.Excel.ConvertToJSON.Definitions;
+using Frends.Excel.ConvertToJSON.Helpers;
+using Newtonsoft.Json;
 
 namespace Frends.Excel.ConvertToJSON;
 
@@ -18,9 +19,8 @@ public static class Excel
     /// </summary>
     /// <param name="input">Input configuration</param>
     /// <param name="options">Input options</param>
-    /// <param name="cancellationToken"></param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Result containing the converted JSON string.</returns>
-    /// <exception cref="Exception"></exception>
     public static Result ConvertToJSON(
         [PropertyTab] Input input,
         [PropertyTab] Options options,
@@ -34,14 +34,11 @@ public static class Excel
             using var excelReader = ExcelReaderFactory.CreateReader(stream);
             var result = excelReader.AsDataSet();
             var json = ConvertDataSetToJson(result, options, Path.GetFileName(input.Path), cancellationToken);
-            return new Result(true, json, null);
+            return new Result(true, json);
         }
         catch (Exception ex)
         {
-            if (options.ThrowErrorOnFailure)
-                throw new InvalidOperationException("Error while converting Excel file to JSON", ex);
-
-            return new Result(false, null, $"Error while converting Excel file to JSON: {ex}");
+            return ex.Handle(options);
         }
     }
 
@@ -66,6 +63,7 @@ public static class Excel
                 if (row.Cells.Count > 0)
                     sheet.rows.Add(row);
             }
+
             sheets.Add(sheet);
         }
 
@@ -94,15 +92,17 @@ public static class Excel
             {
                 ColumnName = options.UseNumbersAsColumnHeaders ? j + 1 : ColumnIndexToColumnLetter(j + 1),
                 ColumnIndex = j + 1,
-                ColumnValue = content.ToString()
+                ColumnValue = content.ToString(),
             });
         }
+
         return columnValues;
     }
 
     private static string ConvertDateTimes(DateTime date, Options options)
     {
         if (options.ShortDatePattern)
+        {
             switch (options.DateFormat)
             {
                 case DateFormats.DDMMYYYY:
@@ -116,6 +116,7 @@ public static class Excel
                 default:
                     return date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern);
             }
+        }
 
         switch (options.DateFormat)
         {
@@ -141,7 +142,7 @@ public static class Excel
         {
             mod = (div - 1) % 26;
             colLetter = (char)(65 + mod) + colLetter;
-            div = ((div - mod) / 26);
+            div = (div - mod) / 26;
         }
 
         return colLetter;
