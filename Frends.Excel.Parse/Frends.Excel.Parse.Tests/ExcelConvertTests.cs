@@ -27,9 +27,13 @@ public class ExcelConvertTests
     {
         _input.Path = Path.Combine(_input.Path, "ExcelTestInput2.xls");
         var result = Excel.Parse(_input, _options, new CancellationToken());
-        Assert.AreEqual(2, result.DataSet.Tables.Count);
-        Assert.AreEqual("Sheet1", result.DataSet.Tables[0].TableName);
-        Assert.AreEqual("OmituinenNimi", result.DataSet.Tables[1].TableName);
+        Assert.That(result.Success, Is.True);
+        Assert.That(result.Error, Is.Null);
+        Assert.That(result.DataSet, Is.Not.Null);
+        var dataSet = result.DataSet!;
+        Assert.AreEqual(2, dataSet.Tables.Count);
+        Assert.AreEqual("Sheet1", dataSet.Tables[0].TableName);
+        Assert.AreEqual("OmituinenNimi", dataSet.Tables[1].TableName);
     }
 
     [Test]
@@ -45,15 +49,9 @@ public class ExcelConvertTests
     {
         _input.Path = Path.Combine(_input.Path, "thisfiledoesnotexist.txt");
         _options.ThrowErrorOnFailure = false;
-        try
-        {
-            var result = Excel.Parse(_input, _options, new CancellationToken());
-            Assert.AreEqual(result.Success, false);
-            Assert.AreEqual(result.DataSet, null);
-        }
-        catch (Exception ex)
-        {
-            Assert.Fail("This should not happen: " + ex.Message);
-        }
+        var result = Excel.Parse(_input, _options, new CancellationToken());
+        Assert.That(result.Success, Is.False);
+        Assert.That(result.DataSet, Is.Null);
+        Assert.That(result.Error, Is.Not.Null);
     }
 }

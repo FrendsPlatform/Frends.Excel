@@ -1,32 +1,44 @@
-﻿using System.ComponentModel;
+﻿namespace Frends.Excel.Parse.Definitions;
+
+using System.ComponentModel;
 using System.Data;
 
-namespace Frends.Excel.Parse.Definitions;
-
+/// <summary>
+/// Result of the task.
+/// </summary>
 public class Result
 {
     /// <summary>
-    /// False if conversion fails.
+    /// Initializes a new instance of the <see cref="Result"/> class.
     /// </summary>
-    [DefaultValue("false")]
-    public bool Success { get; internal set; }
-
-    /// <summary>
-    /// Exception message.
-    /// </summary>
-    [DefaultValue("")]
-    public string ErrorMessage { get; internal set; }
-
-    /// <summary>
-    /// Parsed Excel data set.
-    /// </summary>
-    /// <returns>String</returns>
-    public DataSet DataSet { get; internal set; }
-
-    public Result(bool success, DataSet dataSet, string errorMessage)
+    /// <param name="success">Indicates whether the operation completed successfully.</param>
+    /// <param name="dataSet">Contains the returned data set.</param>
+    /// <param name="error">Contains error details when the operation fails.</param>
+    public Result(bool success, DataSet dataSet, Error error)
     {
         Success = success;
         DataSet = dataSet;
-        ErrorMessage = errorMessage;
+        Error = error;
     }
+
+    /// <summary>
+    /// Indicates whether the operation completed successfully.
+    /// </summary>
+    /// <example>true</example>
+    [DefaultValue(false)]
+    public bool Success { get; init; }
+
+    /// <summary>
+    /// Error details. Null when Success is true.
+    /// </summary>
+    /// <example>null</example>
+    public Error Error { get; init; }
+
+    /// <summary>
+    /// Parsed workbook contents.
+    /// </summary>
+    /// <example>object { Tables = [object { TableName = "Sheet1", Columns = ["Column0"], Rows = [["Value"]] }] }</example>
+#pragma warning disable FT0017 // Intentionally suppress this analyzer rule: DataSet is provided by .NET and is required to represent the parsed Excel workbook
+    public DataSet DataSet { get; internal set; }
+#pragma warning restore FT0017
 }

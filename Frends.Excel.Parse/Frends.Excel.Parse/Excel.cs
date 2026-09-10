@@ -2,9 +2,13 @@
 using System.Text;
 using ExcelDataReader;
 using Frends.Excel.Parse.Definitions;
+using Frends.Excel.Parse.Helpers;
 
 namespace Frends.Excel.Parse;
 
+/// <summary>
+/// Task for parsing Excel files.
+/// </summary>
 public static class Excel
 {
     /// <summary>
@@ -12,16 +16,19 @@ public static class Excel
     /// </summary>
     /// <param name="input">Input configuration</param>
     /// <param name="options">Input options</param>
-    /// <param name="cancellationToken"></param>
+    /// <param name="cancellationToken">Cancellation token to cancel the operation.</param>
     /// <returns>Result containing the parsed Excel: object { bool Success, string ErrorMessage, DataSet DataSet }</returns>
-    /// <exception cref="Exception"></exception>
     public static Result Parse(
         [PropertyTab] Input input,
         [PropertyTab] Options options,
         CancellationToken cancellationToken)
     {
+        options ??= new Options();
+
         try
         {
+            ValidationHandler.Run(input, options);
+            cancellationToken.ThrowIfCancellationRequested();
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             using (var stream = new FileStream(input.Path, FileMode.Open, FileAccess.Read))
@@ -35,12 +42,7 @@ public static class Excel
         }
         catch (Exception ex)
         {
-            if (options.ThrowErrorOnFailure)
-            {
-                throw new Exception("Error while parsing Excel file", ex);
-            }
-
-            return new Result(false, null, $"Error while parsing Excel file: {ex}");
+            return ex.Handle(options);
         }
     }
 }
