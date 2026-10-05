@@ -5,9 +5,9 @@ using Frends.Excel.CreateFromCsv.Helpers;
 namespace Frends.Excel.CreateFromCsv.Definitions;
 
 /// <summary>
-/// Essential parameters.
+/// Additional sheet data
 /// </summary>
-public class Input
+public class SheetData
 {
     /// <summary>
     /// Path to the .csv file.
@@ -36,28 +36,4 @@ public class Input
     [DefaultValue(";")]
     [NotEmptyString]
     public string Delimiter { get; set; }
-
-    /// <summary>
-    /// Name of the file to write to.
-    /// </summary>
-    /// <example>MyNewData</example>
-    [DefaultValue("")]
-    [NotEmptyString]
-    [Required]
-    [ValidExtension([".xlsx"], true)]
-    public string DestinationFileName { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Path to the folder where the file will be saved.
-    /// </summary>
-    /// <example>C:/results</example>
-    [DefaultValue("")]
-    [NotEmptyString]
-    public string DestinationDirectory { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Additional sheets to include
-    /// </summary>
-    /// <example></example>
-    public SheetData[] AdditionalSheets { get; set; } = [];
 }

@@ -1,13 +1,14 @@
-﻿using System;
-using System.ComponentModel;
-using System.Globalization;
-using System.IO;
-using System.Threading;
-using ClosedXML.Excel;
+﻿using ClosedXML.Excel;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Frends.Excel.CreateFromCsv.Definitions;
 using Frends.Excel.CreateFromCsv.Helpers;
+using System;
+using System.ComponentModel;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Threading;
 
 namespace Frends.Excel.CreateFromCsv;
 
@@ -40,7 +41,6 @@ public static class Excel
 
             string outputPath = Path.Combine(input.DestinationDirectory, input.DestinationFileName);
             outputPath = Path.ChangeExtension(outputPath, ".xlsx");
-
             if (File.Exists(outputPath))
             {
                 switch (options.FileExistAction)
@@ -62,47 +62,58 @@ public static class Excel
             }
 
             using var workbook = new XLWorkbook();
-            var worksheet = workbook.Worksheets.Add(input.SheetName);
-
-            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            var mainSheetData = new SheetData
             {
-                HasHeaderRecord = options.ContainsHeaderRow,
                 Delimiter = input.Delimiter,
-                TrimOptions = options.TrimValues ? TrimOptions.Trim : TrimOptions.None,
-                IgnoreBlankLines = options.SkipEmptyRows,
-                Mode = options.IgnoreQuotes ? CsvMode.NoEscape : CsvMode.RFC4180,
+                SourcePath = input.SourcePath,
+                SheetName = input.SheetName,
             };
-
-            using StreamReader sr = new StreamReader(input.SourcePath);
-
-            for (var i = 0; i < options.SkipRowsFromTop; i++) _ = sr.ReadLine();
-
-            using var csvReader = new CsvReader(sr, configuration);
-
-            var rowCounter = 0;
-
-            while (csvReader.Read())
+            var sheetsData = new SheetData[] { mainSheetData }.Concat(input.AdditionalSheets ?? Array.Empty<SheetData>());
+            foreach (var sheetData in sheetsData)
             {
-                rowCounter++;
+                var worksheet = workbook.Worksheets.Add(sheetData.SheetName);
 
-                for (var index = 0; index < csvReader.ColumnCount; index++)
+                var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
+                    HasHeaderRecord = options.ContainsHeaderRow,
+                    Delimiter = sheetData.Delimiter,
+                    TrimOptions = options.TrimValues ? TrimOptions.Trim : TrimOptions.None,
+                    IgnoreBlankLines = options.SkipEmptyRows,
+                    Mode = options.IgnoreQuotes ? CsvMode.NoEscape : CsvMode.RFC4180,
+                };
 
-                    string rawValue = csvReader.GetField(index);
-                    object typedValue = FileHandler.ParseValue(rawValue, configuration.CultureInfo);
-                    worksheet.Cell(rowCounter, index + 1).Value = XLCellValue.FromObject(typedValue);
+                using StreamReader sr = new StreamReader(sheetData.SourcePath);
+
+                for (var i = 0; i < options.SkipRowsFromTop; i++) _ = sr.ReadLine();
+
+                using var csvReader = new CsvReader(sr, configuration);
+
+                var rowCounter = 0;
+
+                while (csvReader.Read())
+                {
+                    rowCounter++;
+
+                    for (var index = 0; index < csvReader.ColumnCount; index++)
+                    {
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        string rawValue = csvReader.GetField(index);
+                        object typedValue = FileHandler.ParseValue(rawValue, configuration.CultureInfo);
+                        worksheet.Cell(rowCounter, index + 1).Value = XLCellValue.FromObject(typedValue);
+                    }
                 }
+
+                if (options.ContainsHeaderRow && rowCounter > 0)
+                {
+                    var headerRow = worksheet.Row(1);
+                    headerRow.Style.Font.Bold = true;
+                    worksheet.SheetView.FreezeRows(1);
+                }
+
+                if (options.AdjustColumnsToContents) worksheet.Columns().AdjustToContents();
             }
 
-            if (options.ContainsHeaderRow && rowCounter > 0)
-            {
-                var headerRow = worksheet.Row(1);
-                headerRow.Style.Font.Bold = true;
-                worksheet.SheetView.FreezeRows(1);
-            }
-
-            if (options.AdjustColumnsToContents) worksheet.Columns().AdjustToContents();
             workbook.SaveAs(tempPath);
 
             if (File.Exists(outputPath)) File.Delete(outputPath);
