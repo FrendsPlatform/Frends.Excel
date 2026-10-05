@@ -1,6 +1,6 @@
+using Frends.Excel.CreateFromCsv.Definitions;
 using System;
 using System.IO;
-using Frends.Excel.CreateFromCsv.Definitions;
 
 namespace Frends.Excel.CreateFromCsv.Tests;
 
@@ -20,9 +20,18 @@ public abstract class TestBase
     {
         SourcePath = Path.Combine(WorkingDirectory, "simple.csv"),
         DestinationFileName = ResultFileName,
-        SheetName = "data",
+        SheetName = "Sheet1",
         Delimiter = ";",
         DestinationDirectory = DestinationDirectoryPath,
+        AdditionalSheets = new SheetData[]
+        {
+            new SheetData
+            {
+                SheetName = "Sheet2",
+                Delimiter = ";",
+                SourcePath = Path.Combine(WorkingDirectory, "simple2.csv"),
+            },
+        },
     };
 
     protected static Options DefaultOptions() => new();
